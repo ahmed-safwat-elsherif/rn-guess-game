@@ -7,21 +7,27 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
  * @returns
  */
 const Button = (props) => {
-  const { children, viewProps = {}, textProps = {}, ...pressableProps } = props;
+  const {
+    children,
+    viewProps = {},
+    textProps = {},
+    rippleColor,
+    ...pressableProps
+  } = props;
 
   const viewStyles = useMemo(
-    () => ({ ...defaultStyles.view, ...viewProps.style }),
+    () => [defaultStyles.view, viewProps.style],
     [viewProps.style]
   );
   const textStyles = useMemo(
-    () => ({ ...defaultStyles.text, ...textProps.style }),
+    () => [defaultStyles.text, textProps.style],
     [textProps.style]
   );
 
   return (
     <View style={viewStyles}>
       <Pressable
-        android_ripple={{ color: "gray" }}
+        android_ripple={{ color: rippleColor ?? "#d6d6d6" }}
         style={({ pressed }) => pressed && defaultStyles.pressedItem}
         {...pressableProps}
       >
@@ -35,9 +41,13 @@ const defaultStyles = StyleSheet.create({
   view: {
     borderRadius: 6,
     elevation: 10,
+    overflow: "hidden",
   },
   text: {
     padding: 10,
+    textAlign: "center",
+    fontSize: 15,
+    textTransform: "uppercase",
   },
   pressedItem: { opacity: 0.5 },
 });
