@@ -1,5 +1,6 @@
-import React, { useMemo } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useMemo } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { COLORS } from '../../utils/theme';
 
 /**
  *
@@ -7,27 +8,14 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
  * @returns
  */
 const Button = (props) => {
-  const {
-    children,
-    viewProps = {},
-    textProps = {},
-    rippleColor,
-    ...pressableProps
-  } = props;
-
-  const viewStyles = useMemo(
-    () => [defaultStyles.view, viewProps.style],
-    [viewProps.style]
-  );
-  const textStyles = useMemo(
-    () => [defaultStyles.text, textProps.style],
-    [textProps.style]
-  );
+  const { children, viewProps = {}, textProps = {}, rippleColor, ...pressableProps } = props;
+  const viewStyles = useMemo(() => [defaultStyles.view, viewProps.style], [viewProps.style]);
+  const textStyles = useMemo(() => [defaultStyles.text, textProps.style], [textProps.style]);
 
   return (
     <View style={viewStyles}>
       <Pressable
-        android_ripple={{ color: rippleColor ?? "#d6d6d6" }}
+        android_ripple={{ color: rippleColor ?? COLORS.gray300 }}
         style={({ pressed }) => pressed && defaultStyles.pressedItem}
         {...pressableProps}
       >
@@ -41,13 +29,13 @@ const defaultStyles = StyleSheet.create({
   view: {
     borderRadius: 6,
     elevation: 10,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   text: {
     padding: 10,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 15,
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   pressedItem: { opacity: 0.5 },
 });
