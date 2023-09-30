@@ -1,45 +1,71 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { Alert, FlatList, StyleSheet, Text, View } from 'react-native';
 import Title from '../components/shared/Title';
 import GuessOutput from '../components/game/GuessOutput';
 import { COLORS } from '../utils/theme';
 import GuessHelpers from '../components/game/GuessHelpers';
-import genRandBetween from '../utils/genRandBetween';
 import GuessLogItem from '../components/game/GuessLogItem';
+import Button from '../components/shared/Button';
+import createGuessEngine, { GUESS_DIRECTION } from '../utils/createGuessEngine';
+import GameOver from '../components/game/GameOver';
 
-const genInitial = () => genRandBetween(0, 100);
-const Game = ({ selectedNumber }) => {
+const MIN = 0;
+const MAX = 100;
+const { guess: guesser, reset: resetGuess } = createGuessEngine(MIN, MAX);
+const genInitial = () => guesser().value;
+
+const Game = ({ selectedNumber, onRestart }) => {
   const [guess, setGuess] = useState(genInitial);
   const [logs, setLogs] = useState([]);
-  const onGuessHigher = useCallback(() => {
-    const newGuess = genRandBetween(guess + 1, 100);
-    setGuess(newGuess);
+
+  const handleReset = useCallback(() => {
+    resetGuess();
+    onRestart();
+  }, [onRestart]);
+
+  const handleNextGuess = useCallback((direction) => {
+    const { value, error } = guesser(direction);
+    if (error || (!value && value !== 0)) {
+      Alert.alert('Boundaries error', 'You have to choose the boundaries precisely!', [
+        { text: 'OK!', onPress: handleReset },
+      ]);
+    } else {
+      setGuess(value);
+    }
   }, []);
 
-  const onGuessLower = useCallback(() => {
-    const newGuess = genRandBetween(0, guess);
-    setGuess(newGuess);
-  }, []);
   useEffect(() => {
     if (selectedNumber === guess) return;
     setLogs((prevLogs) => [...prevLogs, guess]);
   }, [selectedNumber, guess]);
 
-  console.log({ guess });
   return (
     <View style={styles.container}>
       <Title>Opponent's Guessing</Title>
       <GuessOutput guess={guess} />
       {selectedNumber === guess ? (
-        <Text style={styles.text}>Yaaay! 😁👌</Text>
+        <GameOver />
       ) : (
         <>
           <Text style={styles.text}>Nope! 😢</Text>
-          <GuessHelpers onGuessHigher={onGuessHigher} onGuessLower={onGuessLower} />
+          <GuessHelpers
+            onGuessHigher={() => handleNextGuess(GUESS_DIRECTION.HIGHER)}
+            onGuessLower={() => handleNextGuess(GUESS_DIRECTION.LOWER)}
+          />
         </>
       )}
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Button
+          onPress={handleReset}
+          rippleColor={COLORS.primary600}
+          viewProps={{ style: [styles.correctBtnView, { paddingHorizontal: 20 }] }}
+          textProps={{ style: styles.correctBtnText }}
+        >
+          Restart
+        </Button>
+      </View>
       <View style={styles.sperator} />
-      <Text style={[styles.text, styles.hintText]}>Logs</Text>
+      <Text style={[styles.text, styles.hintText]}> -- Tries -- </Text>
       <View style={{ flex: 1 }}>
         <FlatList
           data={logs}
@@ -75,7 +101,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     marginVertical: 10,
   },
-  hintText: { fontSize: 15 },
+  hintText: { fontSize: 20 },
 });
 
 export default Game;

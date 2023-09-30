@@ -24,7 +24,11 @@ const App = () => {
           imageStyle={styles.bgImage}
         >
           <SafeAreaView style={styles.container}>
-            <Screen onChangeNumber={setSelectedNumber} selectedNumber={selectedNumber} />
+            <Screen
+              onChangeNumber={setSelectedNumber}
+              selectedNumber={selectedNumber}
+              onRestart={() => setSelectedNumber(null)}
+            />
           </SafeAreaView>
         </ImageBackground>
       </LinearGradient>
