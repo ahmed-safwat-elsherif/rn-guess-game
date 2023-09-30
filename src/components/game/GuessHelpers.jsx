@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../shared/Button';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 import { COLORS } from '../../utils/theme';
 
 const GuessHelpers = ({ onGuessHigher, onGuessLower }) => {
@@ -12,7 +14,7 @@ const GuessHelpers = ({ onGuessHigher, onGuessLower }) => {
         viewProps={{ style: styles.correctBtnView }}
         textProps={{ style: styles.correctBtnText }}
       >
-        higher
+        <Ionicons name="md-add" size={24} color="white" />
       </Button>
       <Text style={[styles.text, styles.hintText]}>Or</Text>
       <Button
@@ -21,7 +23,7 @@ const GuessHelpers = ({ onGuessHigher, onGuessLower }) => {
         viewProps={{ style: styles.correctBtnView }}
         textProps={{ style: styles.correctBtnText }}
       >
-        lower
+        <Ionicons name="md-remove" size={24} color="white" />
       </Button>
     </View>
   );
