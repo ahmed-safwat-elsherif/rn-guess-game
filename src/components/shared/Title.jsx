@@ -8,7 +8,7 @@ const Title = (props) => <Text style={styles.title} {...props} />;
 const styles = StyleSheet.create({
   title: {
     color: COLORS.secondary,
-    fontFamily: FONTS.Montserrat_Extra_Bold,
+    fontFamily: FONTS.Montserrat_Extra_Bold_i,
     fontSize: 24,
     fontWeight: '600',
     textAlign: 'center',

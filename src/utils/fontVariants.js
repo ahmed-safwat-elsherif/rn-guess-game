@@ -10,8 +10,8 @@ export const FONT_URLS = {
 export const FONTS = {
   Montserrat: 'Montserrat',
   Montserrat_i: 'Montserrat_i',
-  Montserrat_Semi_Bold: 'Montserrat_iSemi_Bold',
-  Montserrat_Semi_Bold_i: 'Montserrat_Semi_Bold',
+  Montserrat_Semi_Bold: 'Montserrat_Semi_Bold',
+  Montserrat_Semi_Bold_i: 'Montserrat_Semi_Bold_i',
   Montserrat_Extra_Bold: 'Montserrat_Extra_Bold',
-  Montserrat_Extra_Bold_i: 'Montserrat_iExtra_Bold',
+  Montserrat_Extra_Bold_i: 'Montserrat_Extra_Bold_i',
 };
