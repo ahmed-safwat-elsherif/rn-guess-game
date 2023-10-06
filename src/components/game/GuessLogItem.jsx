@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 import { COLORS } from '../../utils/theme';
 
@@ -16,11 +15,14 @@ const GuessLogItem = ({ item, index }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: COLORS.gray300,
-    borderRadius: 5,
+    backgroundColor: COLORS.secondary,
+    borderRadius: 100,
     marginHorizontal: 30,
     marginVertical: 10,
     padding: 10,
+    borderWidth: 2,
+    borderColor: 'black',
+    borderStyle: 'solid',
   },
   text: {
     color: COLORS.primary600,
