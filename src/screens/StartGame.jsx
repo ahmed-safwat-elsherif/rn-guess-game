@@ -1,15 +1,25 @@
 import React, { useCallback, useState } from 'react';
-import { Alert, StyleSheet, TextInput, View } from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  StyleSheet,
+  TextInput,
+  View,
+  useWindowDimensions,
+  KeyboardAvoidingView,
+  ScrollView,
+} from 'react-native';
 import Button from '../components/shared/Button';
 import Title from '../components/shared/Title';
 import { COLORS } from '../utils/theme';
 
 const StartGame = (props) => {
   const { onChangeNumber } = props;
-
+  const { height: deviceHeight } = useWindowDimensions();
   const [enteredNumber, setEnteredNumber] = useState('');
 
   const handleReset = useCallback(() => setEnteredNumber(''), []);
+
   const handleConfirm = useCallback(() => {
     const selectedNum = +enteredNumber;
     if (isNaN(selectedNum) || selectedNum <= 0 || selectedNum > 99) {
@@ -22,43 +32,56 @@ const StartGame = (props) => {
   }, [handleReset, enteredNumber]);
 
   return (
-    <View style={styles.container}>
-      <Title>Add the number</Title>
-      <TextInput
-        style={styles.numberInput}
-        maxLength={2}
-        keyboardType="number-pad"
-        autoCapitalize="none"
-        autoCorrect={false}
-        value={enteredNumber}
-        onChangeText={setEnteredNumber}
-      />
-      <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
-        <Button
-          rippleColor={COLORS.primary600}
-          viewProps={{ style: styles.buttonView }}
-          textProps={{ style: { color: 'white' } }}
-          onPress={handleReset}
+    <ScrollView style={styles.screen}>
+      <KeyboardAvoidingView style={styles.screen} behavior="position">
+        <View
+          style={[
+            styles.container,
+            {
+              marginTop: deviceHeight > 380 ? 100 : 24,
+            },
+          ]}
         >
-          Reset
-        </Button>
-        <Button
-          rippleColor={COLORS.primary600}
-          viewProps={{ style: styles.buttonView }}
-          textProps={{ style: { color: 'white' } }}
-          onPress={handleConfirm}
-        >
-          Confirm
-        </Button>
-      </View>
-    </View>
+          <Title>Add the number</Title>
+          <TextInput
+            style={styles.numberInput}
+            maxLength={2}
+            keyboardType="number-pad"
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={enteredNumber}
+            onChangeText={setEnteredNumber}
+          />
+          <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
+            <Button
+              rippleColor={COLORS.primary600}
+              viewProps={{ style: styles.buttonView }}
+              textProps={{ style: { color: 'white' } }}
+              onPress={handleReset}
+            >
+              Reset
+            </Button>
+            <Button
+              rippleColor={COLORS.primary600}
+              viewProps={{ style: styles.buttonView }}
+              textProps={{ style: { color: 'white' } }}
+              onPress={handleConfirm}
+            >
+              Confirm
+            </Button>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
   container: {
     alignItems: 'center',
-    marginTop: 100,
     marginHorizontal: 24,
     padding: 16,
     backgroundColor: COLORS.primary600,
