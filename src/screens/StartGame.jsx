@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import {
   Alert,
-  Dimensions,
   StyleSheet,
   TextInput,
   View,

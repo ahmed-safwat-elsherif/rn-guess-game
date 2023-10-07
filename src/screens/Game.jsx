@@ -83,7 +83,6 @@ const Game = ({ selectedNumber, onRestart }) => {
 
   return isLandscape ? <ScrollView style={styles.container}>{result}</ScrollView> : result;
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
